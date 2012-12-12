@@ -1,0 +1,35 @@
+<html>
+        <head>
+                <title>Manage Account</title>
+        </head>
+
+		{% if categories.count == 0 %}
+			<div> You have no category right now </div>
+		{% else %}
+			<div> Your categories: </div>
+		{% endif %}
+		
+		<br>
+		
+		{% for category in categories %}
+			<div>{{category.cat_name}}:</div>
+			{% for item in category.items %}
+				<div> &nbsp&nbsp&nbsp&nbsp{{item}} </div>
+			{% endfor %}
+			
+			<form action="/option" method="get">
+				<span>Add a new item:</span>
+				<input type="text" name="new_item">
+				<input type="hidden" name="category" value="{{category.cat_name}}">
+				<input type="submit" value="Add Item">
+			</form>
+		{% endfor %}
+		
+		<br>
+		
+		<form action="/option" method="get">
+			<div>Add a new category:</div>
+			<input type="text" name="new_cat">
+            <input type="submit" value="Add Category">
+        </form>
+</html>
