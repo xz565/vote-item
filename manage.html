@@ -10,27 +10,26 @@
 	{% endif %}
 
 	{% for category in categories %}
-		<div><h3>{{category.cat_name}}:<h3></div>
+		<form action="/option" method="get">
+			<!--<span>Add a new item:</span>
+			<input type="text" name="new_item"> -->
+			<span>{{category.cat_name}}:</span>
+			<input type="submit" value="Edit"> 
+			<input type="hidden" name="category" value="{{category.cat_name}}">
+		</form>		
 		<ul type='square'>
 			{% for item in category.items %}
 				<div><li> {{item}} </li></div>
 			{% endfor %}
 		</ul>
-		
-		<form action="/option" method="get">
-			<span>Add a new item:</span>
-			<input type="text" name="new_item">
-			<input type="hidden" name="category" value="{{category.cat_name}}">
-			<input type="submit" value="Add Item">
-		</form>
 	{% endfor %}
 		
 	<br>
 	
 	<form action="/option" method="get">
-		<div>Add a new category:</div>
+		<div>Add a new category:</div> 
 		<input type="text" name="new_cat">
-           <input type="submit" value="Add Category">
+        <input type="submit" value="Add Category">
     </form>
 		
 	<br>
