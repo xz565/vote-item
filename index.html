@@ -3,14 +3,19 @@
                 <title>Welcome!</title>
         </head>
 
-        <div>Welcome! {{nickname}} <a href="{{logout_url}}">sign out</a></div>
+        <div><font size="6">Welcome! <i>{{nickname}}</i></font></div>
 		
 		<br>
 		
         <form action="/option" method="get">
-				<div>Please Choose an Option:</div>
+				<div><font size="5">Please Choose an Option:</font></div> <br>
                 <input type="radio" name="option" value="manage"> Manage Your Account <br>
                 <input type="radio" name="option" value="vote"> Vote <br>
                 <input type="submit" value="Submit">
         </form>
+		
+	<hr align=left width=30%>
+    <ul type='square'>
+	  <li><a href="{{logout_url}}"> Sign out </a></li>
+    </ul>		
 </html>

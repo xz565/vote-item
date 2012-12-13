@@ -4,7 +4,7 @@
         </head>
 
         <form action="/vote" method="get">
-				<div>Please Vote:</div>
+				<div><b>Category</b>: {{category.cat_name}}, <b>Account</b> {{account}}'s</div>
 				
 				<br>
 				
@@ -17,4 +17,11 @@
 				<input type="submit" name="vote" value="Vote!">
 				<input type="submit" name="skip" value="Skip">
         </form>
+		
+	<hr align=left width=30%>
+    <ul type='square'>
+      <li>Back to <a href='/'> Home </a></li>
+	  <li><a href="{{logout_url}}"> Sign out </a></li>
+    </ul>
+	
 </html>

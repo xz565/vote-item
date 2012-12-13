@@ -1,35 +1,43 @@
 <html>
-        <head>
-                <title>Manage Account</title>
-        </head>
+    <head>
+		<title>Manage Account</title>
+    </head>
 
-		{% if categories.count == 0 %}
-			<div> You have no category right now </div>
-		{% else %}
-			<div> Your categories: </div>
-		{% endif %}
-		
-		<br>
-		
-		{% for category in categories %}
-			<div>{{category.cat_name}}:</div>
+	{% if categories.count == 0 %}
+		<div><h2> You have no category right now </h2></div>
+	{% else %}
+		<div><h2> Your categories and items: <h2></div>
+	{% endif %}
+
+	{% for category in categories %}
+		<div><h3>{{category.cat_name}}:<h3></div>
+		<ul type='square'>
 			{% for item in category.items %}
-				<div> &nbsp&nbsp&nbsp&nbsp{{item}} </div>
+				<div><li> {{item}} </li></div>
 			{% endfor %}
-			
-			<form action="/option" method="get">
-				<span>Add a new item:</span>
-				<input type="text" name="new_item">
-				<input type="hidden" name="category" value="{{category.cat_name}}">
-				<input type="submit" value="Add Item">
-			</form>
-		{% endfor %}
-		
-		<br>
+		</ul>
 		
 		<form action="/option" method="get">
-			<div>Add a new category:</div>
-			<input type="text" name="new_cat">
-            <input type="submit" value="Add Category">
-        </form>
+			<span>Add a new item:</span>
+			<input type="text" name="new_item">
+			<input type="hidden" name="category" value="{{category.cat_name}}">
+			<input type="submit" value="Add Item">
+		</form>
+	{% endfor %}
+		
+	<br>
+	
+	<form action="/option" method="get">
+		<div>Add a new category:</div>
+		<input type="text" name="new_cat">
+           <input type="submit" value="Add Category">
+    </form>
+		
+	<br>
+	<hr align=left width=30%>
+    <ul type='square'>
+      <li>Back to <a href='/'> Home </a></li>
+	  <li><a href="{{logout_url}}"> Sign out </a></li>
+    </ul>
+	
 </html>
