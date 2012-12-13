@@ -1,0 +1,20 @@
+<html>
+        <head>
+                <title>Vote</title>
+        </head>
+
+        <form action="/vote" method="get">
+				<div>Please Vote:</div>
+				
+				<br>
+				
+				<input type="radio" name="voted_item" value="{{item1}}"> {{item1}} <br>
+				<input type="radio" name="voted_item" value="{{item2}}"> {{item2}} <br>
+				<input type="hidden" name="item1" value="{{item1}}">
+				<input type="hidden" name="item2" value="{{item2}}">
+				<input type="hidden" name="account" value="{{account}}">
+				<input type="hidden" name="category" value="{{category.cat_name}}">
+				<input type="submit" name="vote" value="Vote!">
+				<input type="submit" name="skip" value="Skip">
+        </form>
+</html>

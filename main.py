@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os
+import os, random
 
 from google.appengine.ext.webapp import template
 from google.appengine.ext import db
@@ -16,11 +16,13 @@ class Category(db.Model):
     cat_name = db.StringProperty()
     items = db.StringListProperty()
 
+
 class Vote(db.Model):
     owner = db.StringProperty()
     category = db.StringProperty()
     win = db.StringProperty()
     lose = db.StringProperty()
+
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -52,6 +54,7 @@ class MainHandler(webapp2.RequestHandler):
             account.put()
 
 
+
 class OptionHandler(webapp2.RequestHandler):
     def get(self):
         option = self.request.get("option")
@@ -62,7 +65,7 @@ class OptionHandler(webapp2.RequestHandler):
             self.manage_page()
 
         elif option == 'vote':
-            self.account_page()
+            self.choose_account_page()
 
         if new_cat:
             self.add_category(new_cat)
@@ -114,19 +117,83 @@ class OptionHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(path, template_values))
 
 
-    def account_page(self):
+    def choose_account_page(self):
         accounts = Account.all()
         template_values = {
             'accounts': accounts
         }
-        path = os.path.join(os.path.dirname(__file__), 'accounts.html')
+        path = os.path.join(os.path.dirname(__file__), 'choose_account.html')
         self.response.out.write(template.render(path, template_values))
+
+
+
+class VoteHandler(webapp2.RequestHandler):
+    def get(self):
+        account = self.request.get("account")
+        category = self.request.get("category")
+
+        vote = self.request.get("vote")
+        skip = self.request.get("skip")
+        item1 = self.request.get("item1")
+        item2 = self.request.get("item2")
+        
+        if vote:
+            print 'vote'
+
+        elif skip:
+            print "skip"
+
+        elif category:
+            self.vote_page(category, account)
+        
+        elif account:
+            self.choose_category_page(account)
+
+
+    def choose_category_page(self, account):
+        account_key = db.Key.from_path('Account', account)
+        categories = Category.all()
+        categories.ancestor(account_key)
+
+        template_values = {
+            'account': account,
+            'categories': categories
+        }
+        path = os.path.join(os.path.dirname(__file__), 'choose_category.html')
+        self.response.out.write(template.render(path, template_values))
+
+
+    def vote_page(self, category, account):
+        cat_key = db.Key.from_path('Account', account, 'Category', category)
+        category = db.get(cat_key)
+        items = category.items
+
+        rand1 = -1;
+        rand2 = -1;
+        if len(items) < 2:
+            return
+        else:
+            rand1 = random.randint(0, len(items) - 1)
+            rand2 = random.randint(0, len(items) - 1)
+            while rand1 == rand2:
+                rand2 = random.randint(0, len(items) - 1)
+
+        template_values = {
+            'item1': items[rand1],
+            'item2': items[rand2],
+            'account': account,
+            'category': category
+        }
+        path = os.path.join(os.path.dirname(__file__), 'vote.html')
+        self.response.out.write(template.render(path, template_values))
+
 
 
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/option', OptionHandler)
+    ('/option', OptionHandler),
+    ('/vote', VoteHandler)
 ], debug=True)
 
 

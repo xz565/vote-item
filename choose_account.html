@@ -1,0 +1,16 @@
+<html>
+        <head>
+                <title>Choose Account</title>
+        </head>
+
+        <form action="/vote" method="get">
+				<div>Please Choose an Account to vote for:</div>
+				
+				<br>
+				
+				{% for acc in accounts %}
+					<input type="radio" name="account" value="{{acc.user_id}}"> {{acc.user_id}} <br>
+				{% endfor %}
+                <input type="submit" value="Submit">
+        </form>
+</html>

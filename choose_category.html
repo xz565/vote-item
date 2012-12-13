@@ -1,0 +1,17 @@
+<html>
+        <head>
+                <title>Choose Category</title>
+        </head>
+
+        <form action="/vote" method="get">
+				<div>Please Choose a Category to vote for:</div>
+				
+				<br>
+				
+				{% for category in categories %}
+					<input type="radio" name="category" value="{{category.cat_name}}"> {{category.cat_name}} <br>
+					<input type="hidden" name="account" value="{{account}}">
+				{% endfor %}
+                <input type="submit" value="Submit">
+        </form>
+</html>
