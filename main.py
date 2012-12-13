@@ -58,7 +58,6 @@ class MainHandler(webapp2.RequestHandler):
 class OptionHandler(webapp2.RequestHandler):
     def get(self):
         option = self.request.get("option")
-        new_cat = self.request.get("new_cat")
         new_item = self.request.get("new_item")
 
         if option == 'manage':
@@ -67,13 +66,23 @@ class OptionHandler(webapp2.RequestHandler):
         elif option == 'vote':
             self.choose_account_page()
 
-        if new_cat:
-            self.add_category(new_cat)
-            self.manage_page()
-
         if new_item:
             self.add_item(new_item)
             self.manage_page()
+
+
+    def manage_page(self):
+        currt_user = users.get_current_user()
+        account_key = db.Key.from_path('Account', currt_user.nickname())
+        categories = Category.all()
+        categories.ancestor(account_key)
+
+        template_values = {
+            'categories': categories,
+            'logout_url': users.create_logout_url("/")
+        }
+        path = os.path.join(os.path.dirname(__file__), 'manage.html')
+        self.response.out.write(template.render(path, template_values))
 
 
     def add_item(self, new_item):
@@ -92,21 +101,44 @@ class OptionHandler(webapp2.RequestHandler):
             break
 
 
-    def add_category(self, new_cat):
-        currt_user = users.get_current_user()
+    def choose_account_page(self):
         accounts = Account.all()
-        accounts.filter("user_id =", currt_user.nickname())
+        template_values = {
+            'accounts': accounts,
+            'logout_url': users.create_logout_url("/")
+        }
+        path = os.path.join(os.path.dirname(__file__), 'choose_account.html')
+        self.response.out.write(template.render(path, template_values))
 
-        for account in accounts:
-            cat = Category(key_name=new_cat, parent=account, cat_name=new_cat)
-            cat.put()
-            break
-            
 
-    def manage_page(self):
+
+class ManageHandler(webapp2.RequestHandler):
+    def get(self):
         currt_user = users.get_current_user()
-
         account_key = db.Key.from_path('Account', currt_user.nickname())
+        account = db.get(account_key)
+
+        new_cat = self.request.get("new_cat")
+        edit = self.request.get("edit")
+
+        if new_cat:
+            self.add_category(new_cat, account)
+            self.manage_page(account_key)
+
+        if edit:
+            self.edit(account)
+
+
+    def edit(self, account):
+        self.response.out.write("edit")
+
+
+    def add_category(self, new_cat, account):
+        cat = Category(key_name=new_cat, parent=account, cat_name=new_cat)
+        cat.put()
+
+
+    def manage_page(self, account_key):
         categories = Category.all()
         categories.ancestor(account_key)
 
@@ -115,16 +147,6 @@ class OptionHandler(webapp2.RequestHandler):
             'logout_url': users.create_logout_url("/")
         }
         path = os.path.join(os.path.dirname(__file__), 'manage.html')
-        self.response.out.write(template.render(path, template_values))
-
-
-    def choose_account_page(self):
-        accounts = Account.all()
-        template_values = {
-            'accounts': accounts,
-            'logout_url': users.create_logout_url("/")
-        }
-        path = os.path.join(os.path.dirname(__file__), 'choose_account.html')
         self.response.out.write(template.render(path, template_values))
 
 
@@ -239,6 +261,7 @@ class VoteHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/option', OptionHandler),
+    ('/manage', ManageHandler),
     ('/vote', VoteHandler)
 ], debug=True)
 
