@@ -1,0 +1,26 @@
+<html>
+    <head>
+		<title>Edit Category</title>
+    </head>
+
+	<div><b>Category</b>: {{category.cat_name}}, <b>Account</b> {{account.user_id}}g</div>
+	
+	<ul type='square'>
+			{% for item in category.items %}
+				<div><li> {{item}} </li></div>
+			{% endfor %}
+	</ul>
+	
+	<form action="/manage" method="get">
+			<span>Add a new item:</span>
+			<input type="text" name="new_item">
+			<input type="submit" value="Add Item"> 
+	</form>
+	
+	<hr align=left width=30%>
+    <ul type='square'>
+      <li>Back to <a href='/'> Home </a></li>
+	  <li><a href="{{logout_url}}"> Sign out </a></li>
+    </ul>
+	
+</html>

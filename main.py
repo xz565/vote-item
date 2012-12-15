@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, random
+import os, random, urllib2
 
 from google.appengine.ext.webapp import template
 from google.appengine.ext import db
@@ -38,9 +38,16 @@ class MainHandler(webapp2.RequestHandler):
             path = os.path.join(os.path.dirname(__file__), 'index.html')
             self.response.out.write(template.render(path, template_values))
         else:
-            greeting = ("<a href=\"%s\">Sign in or register</a>." \
-                            %users.create_login_url("/"))
-            self.response.out.write("<html><body>%s</body></html>" % greeting)
+            #greeting = ("<script type='text/javascript'>window.location.href = \"%s\"</script>" % 
+            #                users.create_login_url("/"))
+            greeting = ("<a href=\"%s\">Sign in or register</a>." %users.create_login_url("/"))
+            self.response.out.write("""
+                <html>
+                    <body>%s</body>
+                </html>
+                """ % greeting)
+            
+
 
     def checkUser(self, user):
         accounts = Account.all()
@@ -126,11 +133,23 @@ class ManageHandler(webapp2.RequestHandler):
             self.manage_page(account_key)
 
         if edit:
-            self.edit(account)
+            self.edit(currt_user, account)
 
 
-    def edit(self, account):
-        self.response.out.write("edit")
+    def edit(self, currt_user, account):
+        cat_name = self.request.get("category")
+
+        category_key = db.Key.from_path('Account', currt_user.nickname(), 'Category', cat_name)
+        category = db.get(category_key)
+
+        template_values = {
+            'account': account,
+            'category': category,
+            'logout_url': users.create_logout_url("/")
+        }
+
+        path = os.path.join(os.path.dirname(__file__), 'edit.html')
+        self.response.out.write(template.render(path, template_values))
 
 
     def add_category(self, new_cat, account):

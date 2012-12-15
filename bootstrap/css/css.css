@@ -1,0 +1,77 @@
+
+
+#manage .welcome ul li{
+    display: inline;
+    margin-right: 20px;
+}
+
+#manage .welcome #ul{
+    text-align: right;
+}
+
+#manage table {
+    width: 600px;
+}
+
+#manage #addCat{
+    height: 30px;
+}
+
+#manage table th, #manage table td{
+    text-align: center;
+    vertical-align: middle;
+}
+
+#manage #cat_name li{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#manage #name{
+    width: 200px;
+}
+
+/* ---------------------------------- */
+
+
+#index #logout{
+    text-align: right;
+    margin-right: 20px;
+}
+
+#index #title{
+    font-family: "Helvetica Neue";
+    text-shadow: 10px 20px 10px #2f96b4;
+    -webkit-animation-name: bluepulse;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+}
+
+
+@-webkit-keyframes bluepulse{
+    from { text-shadow: 10px 10px 9px #2f96b4; opacity: 0.5;}
+    50% { text-shadow: 0 0 21px #ffffff; opacity: 0.9;}
+    to { text-shadow: 10px 10px 9px #2f96b4; opacity: 0.5; }
+}
+
+#index table{
+    table-layout: fixed;
+    width: 600px;
+}
+
+#index table td{
+    text-align: center;
+}
+
+#index #text{
+    width: 80%;
+    padding-left: 100px;
+}
+
+#index .aaa{
+    width: 200px;
+    height: 80px;
+    font-size: 25px;
+    border-radius: 0 !important;
+}
+
