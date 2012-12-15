@@ -53,38 +53,11 @@
                     {{category.cat_name}}
                     <hr/>
 
-                    <!--<form action="/manage" method="get">
+                    <form action="/manage" method="get">
                         <input type="hidden" name="edit" value="on">
                         <input class="btn btn-info btn-small" type="submit" value="Edit">
                         <input type="hidden" name="category" value="{{category.cat_name}}">
-                    </form>-->
-
-                    <button class="btn btn-info btn-small" data-toggle="modal" data-target="#{{category.cat_name}}">Edit</button>
-
-                    <section id="{{category.cat_name}}" class="modal fade hide">
-                        <div class="modal-header">
-                            <h3 id="myModalLabel">Edit Category: <span class="text-info">{{category.cat_name}}</span></h3>
-                        </div>
-                        <div class="modal-body">
-                            <ul type='square'>
-                                {% for item in category.items %}
-                                <div><li> {{item}} </li></div>
-                                {% endfor %}
-                            </ul>
-                            <hr/>
-                            <form action="/manage" method="get">
-                                <section class="input-prepend input-append">
-                                    <span class="add-on"><i class="icon-plus"></i></span>
-                                    <input type="text" name="new_cat" placeholder="Add a new item" />
-                                    <input type="submit" value="Add Item" class="btn btn-info" />
-                                </section>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                            <button class="btn btn-primary">Save changes</button>
-                        </div>
-                    </section>
+                    </form>
 
 
                 </th>
