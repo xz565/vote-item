@@ -133,6 +133,7 @@ class ManageHandler(webapp2.RequestHandler):
         category = db.get(category_key)
         
         items = Item.all()
+        items.ancestor(category_key)
 
         template_values = {
             'account': account,

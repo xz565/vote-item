@@ -63,7 +63,7 @@
                 </th>
                 <td class="muted">
                     {% for item in items %}
-                        {% if item.parent().cat_name == category.cat_name %}
+                        {% if item.parent.cat_name == category.cat_name %}
                             <ul class="unstyled">
                                 <li>{{item.item_name}}</li>
                             </ul>
