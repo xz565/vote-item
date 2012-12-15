@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, random, urllib2
+import os
 
 from google.appengine.ext.webapp import template
 from google.appengine.ext import db
@@ -34,7 +34,6 @@ class MainHandler(webapp2.RequestHandler):
                     <body>%s</body>
                 </html>
                 """ % greeting)
-            
 
 
     def checkUser(self, user):
@@ -53,10 +52,10 @@ class OptionHandler(webapp2.RequestHandler):
     def get(self):
         option = self.request.get("option")
 
-        if option == 'manage':
+        if option == "manage":
             self.manage_page()
 
-        elif option == 'vote':
+        elif option == "vote":
             self.choose_account_page()
 
 

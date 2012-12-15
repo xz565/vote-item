@@ -1,6 +1,17 @@
 #!/usr/bin/env python
 
+import os, random
+
+from google.appengine.ext.webapp import template
+from google.appengine.ext import db
+from google.appengine.api import users
 import webapp2
+
+
+from models import Account
+from models import Category
+from models import Item
+
 
 class VoteHandler(webapp2.RequestHandler):
     def get(self):
@@ -82,19 +93,21 @@ class VoteHandler(webapp2.RequestHandler):
     def vote_page(self, category, account):
         cat_key = db.Key.from_path('Account', account, 'Category', category)
         category = db.get(cat_key)
-        items = category.items
+        
+        items = Item.all()
+        items.ancestor(cat_key)        
 
         rand1 = -1;
         rand2 = -1;
-        if len(items) < 2:
+        if items.count() < 2:
             self.response.out.write("Item number smaller than two")
             self.choose_category_page(account)
             return
         else:
-            rand1 = random.randint(0, len(items) - 1)
-            rand2 = random.randint(0, len(items) - 1)
+            rand1 = random.randint(0, items.count() - 1)
+            rand2 = random.randint(0, items.count() - 1)
             while rand1 == rand2:
-                rand2 = random.randint(0, len(items) - 1)
+                rand2 = random.randint(0, items.count() - 1)
 
         template_values = {
             'item1': items[rand1],

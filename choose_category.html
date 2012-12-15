@@ -10,8 +10,8 @@
 				
 				{% for category in categories %}
 					<input type="radio" name="category" value="{{category.cat_name}}"> {{category.cat_name}} <br>
-					<input type="hidden" name="account" value="{{account}}">
 				{% endfor %}
+                <input type="hidden" name="account" value="{{account}}">
                 <input type="submit" value="Submit">
         </form>
 
