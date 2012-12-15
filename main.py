@@ -52,17 +52,12 @@ class MainHandler(webapp2.RequestHandler):
 class OptionHandler(webapp2.RequestHandler):
     def get(self):
         option = self.request.get("option")
-        new_item = self.request.get("new_item")
 
         if option == 'manage':
             self.manage_page()
 
         elif option == 'vote':
             self.choose_account_page()
-
-        if new_item:
-            self.add_item(new_item)
-            self.manage_page()
 
 
     def manage_page(self):
@@ -71,28 +66,15 @@ class OptionHandler(webapp2.RequestHandler):
         categories = Category.all()
         categories.ancestor(account_key)
 
+        items = Item.all()
+
         template_values = {
             'categories': categories,
+            'items': items,
             'logout_url': users.create_logout_url("/")
         }
         path = os.path.join(os.path.dirname(__file__), 'manage.html')
         self.response.out.write(template.render(path, template_values))
-
-
-    def add_item(self, new_item):
-        currt_user = users.get_current_user()
-        cat_name = self.request.get("category")
-        cat_key = db.Key.from_path('Account', currt_user.nickname(), 'Category', cat_name)
-
-        categories = Category.all()
-        categories.ancestor(cat_key)
-
-        for category in categories:
-            items = category.items
-            if new_item not in items:
-                items.append(new_item)
-                category.put()
-            break
 
 
     def choose_account_page(self):
@@ -114,6 +96,7 @@ class ManageHandler(webapp2.RequestHandler):
 
         new_cat = self.request.get("new_cat")
         edit = self.request.get("edit")
+        new_item = self.request.get("new_item")
 
         if new_cat:
             self.add_category(new_cat, account)
@@ -122,16 +105,39 @@ class ManageHandler(webapp2.RequestHandler):
         if edit:
             self.edit(currt_user, account)
 
+        if new_item:
+            self.add_item(new_item)
+            self.edit(currt_user, account)
+
+
+    def add_item(self, new_item):
+        currt_user = users.get_current_user()
+        cat_name = self.request.get("cat_name")
+        cat_key = db.Key.from_path('Account', currt_user.nickname(), 'Category', cat_name)
+
+        category = db.get(cat_key)
+
+        items = Item.all()
+        items.ancestor(cat_key)
+        items.filter("item_name =", new_item)
+
+
+        if items.count() == 0:
+            item = Item(key_name=new_item, parent=category, item_name=new_item)
+            item.put()
+
 
     def edit(self, currt_user, account):
-        cat_name = self.request.get("category")
-
+        cat_name = self.request.get("cat_name")
         category_key = db.Key.from_path('Account', currt_user.nickname(), 'Category', cat_name)
         category = db.get(category_key)
+        
+        items = Item.all()
 
         template_values = {
             'account': account,
             'category': category,
+            'items': items,
             'logout_url': users.create_logout_url("/")
         }
 

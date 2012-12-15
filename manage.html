@@ -56,16 +56,18 @@
                     <form action="/manage" method="get">
                         <input type="hidden" name="edit" value="on">
                         <input class="btn btn-info btn-small" type="submit" value="Edit">
-                        <input type="hidden" name="category" value="{{category.cat_name}}">
+                        <input type="hidden" name="cat_name" value="{{category.cat_name}}">
                     </form>
 
 
                 </th>
                 <td class="muted">
-                    {% for item in category.items %}
-                    <ul class="unstyled">
-                        <li>{{item}}</li>
-                    </ul>
+                    {% for item in items %}
+                        {% if item.parent().cat_name == category.cat_name %}
+                            <ul class="unstyled">
+                                <li>{{item.item_name}}</li>
+                            </ul>
+                        {% endif %}
                     {% endfor %}
                 </td>
             </tr>
