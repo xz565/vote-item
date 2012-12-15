@@ -47,7 +47,6 @@ class MainHandler(webapp2.RequestHandler):
             account.put()
 
 
-
 class OptionHandler(webapp2.RequestHandler):
     def get(self):
         option = self.request.get("option")
@@ -155,11 +154,10 @@ class ManageHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(path, template_values))
 
 
-
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    #('/option', OptionHandler),
-    #('/manage', ManageHandler),
+    ('/option', OptionHandler),
+    ('/manage', ManageHandler),
     #('/vote', VoteHandler)
 ], debug=True)
 
