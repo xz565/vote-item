@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+
+import webapp2
+
 class VoteHandler(webapp2.RequestHandler):
     def get(self):
         account = self.request.get("account")

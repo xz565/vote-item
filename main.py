@@ -12,6 +12,8 @@ from models import Account
 from models import Category
 from models import Item
 
+from vote_handler import VoteHandler
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -158,6 +160,6 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/option', OptionHandler),
     ('/manage', ManageHandler),
-    #('/vote', VoteHandler)
+    ('/vote', VoteHandler)
 ], debug=True)
 
