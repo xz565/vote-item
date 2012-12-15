@@ -36,44 +36,48 @@ class VoteHandler(webapp2.RequestHandler):
 
 
     def do_vote(self, owner, category):
-        voted_item = self.request.get("voted_item")
-        item1 = self.request.get("item1")
-        item2 = self.request.get("item2")
+        voted_item_name = self.request.get("voted_item_name")
+        item1_name = self.request.get("item1")
+        item2_name = self.request.get("item2")
 
-        currt_user = users.get_current_user()
-        accounts = Account.all()
-        accounts.filter("user_id =", currt_user.nickname())
+        account = self.request.get("account")
+        account_key = db.Key.from_path("Account", account)
 
-        vote = ''
+        account_items = Item.all()
+        account_items = account_items.ancestor(account_key)
 
-        for account in accounts:
-            vote = Vote(parent=account)
-            vote.category = category
-            vote.owner = owner
-            break
+        item1 = ''
+        item2 = ''
+
+        for item in account_items.run():
+            if item.item_name == item1_name:
+                item1 = item
+            if item.item_name == item2_name:
+                item2 = item
 
 
-        if voted_item == item1:
+        if voted_item_name == item1_name:
+            item1.win = item1.win + 1
+            item2.lose = item2.lose + 1
             self.response.out.write("""
                 <html>
                     You voted for %s over %s
                     <br><br>
                 </html>
-                """ %(item1, item2))
-            vote.win = item1
-            vote.lose = item2
-            vote.put()
+                """ %(item1_name, item2_name))
 
-        elif voted_item == item2:
+        elif voted_item_name == item2_name:
+            item2.win = item2.win + 1
+            item1.lose = item1.lose + 1
             self.response.out.write("""
                 <html>
                     You voted for %s over %s
                     <br><br>
                 </html>
-                """ %(item2, item1))
-            vote.win = item2
-            vote.lose = item1
-            vote.put()
+                """ %(item2_name, item1_name))
+
+        item1.put()
+        item2.put()
         
 
     def choose_category_page(self, account):

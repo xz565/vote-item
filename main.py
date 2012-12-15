@@ -123,6 +123,8 @@ class ManageHandler(webapp2.RequestHandler):
 
         if items.count() == 0:
             item = Item(key_name=new_item, parent=category, item_name=new_item)
+            item.win = 0
+            item.lose = 0
             item.put()
 
 

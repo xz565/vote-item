@@ -8,11 +8,11 @@
 				
 				<br>
 				
-				<input type="radio" name="voted_item" value="{{item1}}"> {{item1.item_name}} <br>
-				<input type="radio" name="voted_item" value="{{item2}}"> {{item2.item_name}} <br>
+				<input type="radio" name="voted_item_name" value="{{item1.item_name}}"> {{item1.item_name}} <br>
+				<input type="radio" name="voted_item_name" value="{{item2.item_name}}"> {{item2.item_name}} <br>
 
-				<input type="hidden" name="item1" value="{{item1}}">
-				<input type="hidden" name="item2" value="{{item2}}">
+				<input type="hidden" name="item1" value="{{item1.item_name}}">
+				<input type="hidden" name="item2" value="{{item2.item_name}}">
 				<input type="hidden" name="account" value="{{account}}">
 				<input type="hidden" name="category" value="{{category.cat_name}}">
 				<input type="submit" name="vote" value="Vote!">
