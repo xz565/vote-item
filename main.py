@@ -156,8 +156,11 @@ class ManageHandler(webapp2.RequestHandler):
         categories = Category.all()
         categories.ancestor(account_key)
 
+        items = Item.all()
+
         template_values = {
             'categories': categories,
+            'items': items,
             'logout_url': users.create_logout_url("/")
         }
         path = os.path.join(os.path.dirname(__file__), 'manage.html')
