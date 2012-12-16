@@ -45,16 +45,16 @@ class ManageHandler(webapp2.RequestHandler):
         items = Item.all()
         items.ancestor(cat_key)
 
-        f = open("abc.xml", "w")
-        f.write('<CATEGORY>\n')
-        f.write('   <NAME>' + cat_name + '</NAME>\n')
-
+        self.response.headers['Content-Type'] = 'text/xml'
+        #self.response.out.write('<?xml version="1.0"?>\n')
+        self.response.out.write('<CATEGORY>\n')
+        self.response.out.write('   <NAME>' + cat_name + '</NAME>\n')
         for item in items.run():
-            f.write('   <ITEM>\n')
-            f.write('       <NAME>' + item.item_name + '</NAME>\n')
-            f.write('   /<ITEM>\n')
+            self.response.out.write('   <ITEM>\n')
+            self.response.out.write('       <NAME>' + item.item_name + '</NAME>\n')
+            self.response.out.write('   </ITEM>\n')
 
-        f.write('</CATEGORY>\n')
+        self.response.out.write('</CATEGORY>\n')
 
 
     def add_item(self, currt_user, new_item):

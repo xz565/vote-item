@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os
+import os, urllib
 
 from google.appengine.ext.webapp import template
 from google.appengine.ext import db
@@ -88,12 +88,16 @@ class OptionHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(path, template_values))
 
 
+class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
+    def get(self, resource):
+        resource = str(urllib.unquote(resource))
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/option', OptionHandler),
     ('/manage', ManageHandler),
     ('/vote', VoteHandler),
-    #('/serve/([^/]+)?', ServeHandler)
+    ('/serve/([^/]+)?', ServeHandler)
 ], debug=True)
 
