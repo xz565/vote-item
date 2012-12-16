@@ -21,6 +21,8 @@ class ManageHandler(webapp2.RequestHandler):
         new_cat = self.request.get("new_cat")
         edit = self.request.get("edit")
         export_XML = self.request.get("exportXML")
+        import_XML = self.request.get("importXML")
+        xml = self.request.get("xml")
         new_item = self.request.get("new_item")
 
         if new_cat:
@@ -33,10 +35,20 @@ class ManageHandler(webapp2.RequestHandler):
         if export_XML:
             self.export_XML(currt_user)
 
+        if import_XML:
+            self.import_XML()
+
         if new_item:
             self.add_item(currt_user, new_item)
             self.edit(currt_user, account)
 
+
+    def import_XML(self):
+        upload_url = blobstore.create_upload_url('/upload')
+        self.response.out.write('<html><body>')
+        self.response.out.write('<form action="%s" method="POST" enctype="multipart/form-data">' % upload_url)
+        self.response.out.write("""Upload File: <input type="file" name="file"><br> <input type="submit" \
+                        name="submit" value="Submit"> </form></body></html>""")
 
     def export_XML(self, currt_user):
         cat_name = self.request.get("cat_name")

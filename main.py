@@ -13,6 +13,10 @@ from models import Account
 from models import Category
 from models import Item
 
+import xml.dom.minidom
+from xml.etree import ElementTree
+from xml.etree.ElementTree import Element, SubElement, Comment
+
 from vote_handler import VoteHandler
 from manage_handler import ManageHandler
 
@@ -88,9 +92,20 @@ class OptionHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(path, template_values))
 
 
+class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+    def post(self):
+        upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
+        blob_info = upload_files[0]
+        #self.redirect('/serve/%s' % blob_info.key())
+        blob_key = blob_info.key()
+        blob_reader = blobstore.BlobReader(blob_key)
+        document = blob_reader.read()
+
+        print document
+
+
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
-    def get(self, resource):
-        resource = str(urllib.unquote(resource))
+    pass
 
 
 app = webapp2.WSGIApplication([
@@ -98,6 +113,7 @@ app = webapp2.WSGIApplication([
     ('/option', OptionHandler),
     ('/manage', ManageHandler),
     ('/vote', VoteHandler),
+    ('/upload', UploadHandler),
     ('/serve/([^/]+)?', ServeHandler)
 ], debug=True)
 
