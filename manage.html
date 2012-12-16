@@ -60,6 +60,12 @@
                         <input type="hidden" name="cat_name" value="{{category.cat_name}}">
                     </form>
 
+                    <form action="/manage" method="get">
+                        <input type="hidden" name="exportXML" value="on">
+                        <input class="btn btn-info btn-small" type="submit" value="Export to XML">
+                        <input type="hidden" name="cat_name" value="{{category.cat_name}}">
+                    </form>
+
                 </th>
                 <td class="muted">
                     {% for item in items %}
