@@ -1,21 +1,40 @@
 <html>
-        <head>
-                <title>Choose Account</title>
-        </head>
+<head>
+    <title>Choose Account</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="bootstrap/css/css.css" rel="stylesheet"/>
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+</head>
 
-        <form action="/vote" method="get">
-				<div>Please Choose an Account to vote for:</div>
-				<br>
-				{% for account in accounts %}
-					<input type="radio" name="account" value="{{account.user_id}}"> {{account.user_id}} <br>
-				{% endfor %}
-                <input type="submit" value="Submit">
-        </form>
+<body id="manage">
 
-	<hr align=left width=30%>
-    <ul type='square'>
-      <li>Back to <a href='/'> Home </a></li>
-	  <li><a href="{{logout_url}}"> Sign out </a></li>
-    </ul>
-	
+<section class="container">
+    <section class="well welcome">
+        <h1 class="text-info">Please Choose an Account to Vote for</h1>
+        <hr/>
+        <section id="ul">
+            <ul class="unstyled">
+                <li><a href="/">Home</a></li>
+                <li><a href="{{logout_url}}">Sign Out</a></li>
+            </ul>
+        </section>
+    </section>
+
+    <center>
+        <table id="table2" class="table table-striped table-bordered">
+            {% for account in accounts %}
+            <tr>
+                <td>
+                    <form action="/vote" method="get">
+                        <input class="btn btn-link" type="submit" name="account" value="{{account.user_id}}">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </center>
+
+</section>
+</body>
 </html>

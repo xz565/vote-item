@@ -9,7 +9,7 @@
 <body id="manage">
 <section class="container">
     <section class="well welcome">
-        <h1 class="text-error">Manage Your Category And Items</h1>
+        <h1 class="text-info">Manage Your Category And Items</h1>
         <hr/>
         <section id="ul">
             <ul class="unstyled">
@@ -22,11 +22,12 @@
     <div class="alert alert">
         <span><strong>Sorry! </strong> You have no category right now</span>
     </div>
+    <center>
     <section class="thumbnail">
         <form action="/manage" method="get">
             <section class="input-prepend input-append">
                 <span class="add-on"><i class="icon-pencil"></i></span>
-                <input type="text" name="new_cat" placeholder="Add a new category" />
+                <input class="input" id="addCat" type="text" name="new_cat" placeholder="Add a new category" />
                 <input type="submit" value="Add Category" class="btn btn-info" />
             </section>
         </form>
@@ -36,7 +37,7 @@
         <table class="table table-striped table-bordered">
             <tr>
                 <th colspan="2">
-                    <h2 class="text-error"> Your categories and items: </h2>
+                    <h2 class="text-info"> Your categories and items: </h2>
                     <hr/>
                     <form action="/manage" method="get">
                         <section class="input-prepend input-append">

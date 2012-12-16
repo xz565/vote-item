@@ -7,27 +7,39 @@
     <script src="bootstrap/js/bootstrap.js"></script>
 </head>
 
-<div><b>Category</b>: {{category.cat_name}}, <b>Account</b> {{account.user_id}}</div>
+<body id="manage">
+<section class="container">
+    <section class="well welcome">
+        <h1 class="text-info">Edit Your Category And Items</h1>
+        <hr/>
+        <section id="ul">
+            <ul class="unstyled">
+                <li><a href="/">Home</a></li>
+                <li><a href="{{logout_url}}">Sign Out</a></li>
+            </ul>
+        </section>
+    </section>
 
-<ul type='square'>
-    {% for item in items %}
-    <div>
-        <li> {{item.item_name}}</li>
-    </div>
-    {% endfor %}
-</ul>
+    <center>
+    <section class="well">
+        <Strong>Category</strong>: {{category.cat_name}}, <b>Account</b> {{account.user_id}}</div>
+    </section>
 
-<form action="/manage" method="get">
-    <span>Add a new item:</span>
-    <input type="text" name="new_item">
-    <input type="submit" value="Add Item">
-    <input type="hidden" name="cat_name" value="{{category.cat_name}}">
-</form>
+    <ul class="unstyled">
+        {% for item in items %}
+        <div>
+            <li> {{item.item_name}}</li>
+        </div>
+        {% endfor %}
+    </ul>
 
-<hr align=left width=30%>
-<ul type='square'>
-    <li>Back to <a href='/'> Home </a></li>
-    <li><a href="{{logout_url}}"> Sign out </a></li>
-</ul>
-
+    <form action="/manage" method="get">
+        <span>Add a new item:</span>
+        <input type="text" name="new_item">
+        <input type="submit" value="Add Item">
+        <input type="hidden" name="cat_name" value="{{category.cat_name}}">
+    </form>
+    </center>
+</section>
+</body>
 </html>

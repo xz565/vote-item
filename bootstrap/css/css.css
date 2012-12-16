@@ -69,9 +69,14 @@
 }
 
 #index .aaa{
-    width: 200px;
+    width: 250px;
     height: 80px;
     font-size: 25px;
     border-radius: 0 !important;
 }
 
+/* ---------------------------------- */
+
+#manage #table2{
+    width: 300px;
+}
