@@ -94,14 +94,50 @@ class OptionHandler(webapp2.RequestHandler):
 
 class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
-        upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
+        upload_files = self.get_uploads()  # 'file' is file upload field in the form
         blob_info = upload_files[0]
         #self.redirect('/serve/%s' % blob_info.key())
         blob_key = blob_info.key()
         blob_reader = blobstore.BlobReader(blob_key)
         document = blob_reader.read()
+        #self.response.out.write(document)
+        dom = xml.dom.minidom.parseString(document)
+        names = dom.getElementsByTagName("NAME")
 
-        print document
+        xml_cat_name = names[0].toxml() 
+        xml_cat_name = xml_cat_name.replace("<NAME>", "")
+        xml_cat_name = xml_cat_name.replace("</NAME>", "")
+
+        xml_item_names = []
+        for i in range(1, len(names)):
+            name = names[i].toxml()
+            name = name.replace("<NAME>", "")
+            name = name.replace("</NAME>", "")
+            xml_item_names.append(name)
+
+        currt_user = users.get_current_user()
+        account_key = db.Key.from_path('Account', currt_user.nickname())
+        account = db.get(account_key)
+        categories = Category.all()
+        categories.ancestor(account_key)
+
+        cat_names = []
+        for category in categories.run():
+            cat_names.append(category.cat_name)
+
+        if xml_cat_name in cat_names:
+            print cat_name
+        else:
+            cat = Category(key_name=xml_cat_name, parent=account, cat_name=xml_cat_name)
+            cat.put()
+            for xml_item_name in xml_item_names:
+                item = Item(key_name=xml_item_name, parent=cat, item_name=xml_item_name)
+                item.win = 0
+                item.lose = 0
+                item.put()
+
+
+            #print "Not"
 
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
