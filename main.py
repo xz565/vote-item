@@ -125,7 +125,8 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
         for category in categories.run():
             cat_names.append(category.cat_name)
 
-        ###
+
+        ### if category exists
         if xml_cat_name in cat_names:
             items = Item.all()
             category = categories.filter("cat_name =", xml_cat_name)
@@ -141,6 +142,8 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
             for item_name in xml_item_names:
                 if item_name not in item_names:
                     item = Item(key_name=item_name, parent=category, item_name=item_name)
+                    item.win = 0
+                    item.lose = 0
                     item.put()
 
             ### delete old items
@@ -162,6 +165,8 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
                 item.lose = 0
                 item.put()
 
+
+        self.redirect("/option?option=manage")
 
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
