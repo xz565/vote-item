@@ -19,6 +19,7 @@ class ManageHandler(webapp2.RequestHandler):
         account = db.get(account_key)
 
         new_cat = self.request.get("new_cat")
+        del_cat = self.request.get("del_cat")
         edit = self.request.get("edit")
         export_XML = self.request.get("exportXML")
         import_XML = self.request.get("importXML")
@@ -28,6 +29,10 @@ class ManageHandler(webapp2.RequestHandler):
 
         if new_cat:
             self.add_category(new_cat, account)
+            self.manage_page(account_key)
+
+        if del_cat:
+            self.del_cat(del_cat, currt_user)
             self.manage_page(account_key)
 
         if edit:
@@ -46,6 +51,18 @@ class ManageHandler(webapp2.RequestHandler):
         if del_item:
             self.del_item(currt_user, del_item)
             self.edit(currt_user, account)
+
+
+    def del_cat(self, del_cat, currt_user):
+        cat_key = db.Key.from_path("Account", currt_user.nickname(), "Category", del_cat)
+        category = db.get(cat_key)
+
+        items = Item.all()
+        items.ancestor(cat_key)
+        for item in items.run():
+            item.delete()
+
+        category.delete()
 
 
     def del_item(self, currt_user, del_item):
