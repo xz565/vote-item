@@ -1,23 +1,35 @@
 <html>
-        <head>
-                <title>Choose Category</title>
-        </head>
+<head>
+    <title>Choose Category</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="bootstrap/css/css.css" rel="stylesheet"/>
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+</head>
 
-        <form action="/vote" method="get">
-				<div>Please Choose a Category to vote for:</div>
-				
-				<br>
-				
-				{% for category in categories %}
-					<input type="radio" name="category" value="{{category.cat_name}}"> {{category.cat_name}} <br>
-				{% endfor %}
-                <input type="hidden" name="account" value="{{account}}">
-                <input type="submit" value="Submit">
-        </form>
+<body id="manage">
+<section class="container">
 
-	<hr align=left width=30%>
-    <ul type='square'>
-      <li>Back to <a href='/'> Home </a></li>
-	  <li><a href="{{logout_url}}"> Sign out </a></li>
-    </ul>
+    <section class="well welcome">
+        <h1 class="text-info">Please Choose a Category to vote for:</h1>
+        <hr/>
+        <section id="ul">
+            <ul class="unstyled">
+                <li><a href="/">Home</a></li>
+                <li><a href="{{logout_url}}">Sign Out</a></li>
+            </ul>
+        </section>
+    </section>
+
+    <form action="/vote" method="get">
+        {% for category in categories %}
+        <input type="radio" name="category" value="{{category.cat_name}}"> <span class="text-info"> {{category.cat_name}} </span> <br/>
+        {% endfor %}
+        <input type="hidden" name="account" value="{{account}}">
+        <br>
+        <input class="btn" type="submit" value="Submit">
+    </form>
+
+</section>
+</body>
 </html>

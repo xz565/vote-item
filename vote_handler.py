@@ -61,7 +61,7 @@ class VoteHandler(webapp2.RequestHandler):
             item2.lose = item2.lose + 1
             self.response.out.write("""
                 <html>
-                    You voted for %s over %s
+                    <h1>You voted for %s over %s</h1>
                     <br><br>
                 </html>
                 """ %(item1_name, item2_name))
@@ -71,7 +71,7 @@ class VoteHandler(webapp2.RequestHandler):
             item1.lose = item1.lose + 1
             self.response.out.write("""
                 <html>
-                    You voted for %s over %s
+                    <h1>You voted for %s over %s</h1>
                     <br><br>
                 </html>
                 """ %(item2_name, item1_name))

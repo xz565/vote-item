@@ -1,28 +1,43 @@
 <html>
-        <head>
-                <title>Vote</title>
-        </head>
+<head>
+    <title>Vote</title>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="bootstrap/css/css.css" rel="stylesheet"/>
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+</head>
 
-        <form action="/vote" method="get">
-				<div><b>Category</b>: {{category.cat_name}}, <b>Account</b> {{account}}</div>
-				
-				<br>
-				
-				<input type="radio" name="voted_item_name" value="{{item1.item_name}}"> {{item1.item_name}} <br>
-				<input type="radio" name="voted_item_name" value="{{item2.item_name}}"> {{item2.item_name}} <br>
+<body id="manage">
+<section class="container">
+<form action="/vote" method="get">
 
-				<input type="hidden" name="item1" value="{{item1.item_name}}">
-				<input type="hidden" name="item2" value="{{item2.item_name}}">
-				<input type="hidden" name="account" value="{{account}}">
-				<input type="hidden" name="category" value="{{category.cat_name}}">
-				<input type="submit" name="vote" value="Vote!">
-				<input type="submit" name="skip" value="Skip">
-        </form>
-		
-	<hr align=left width=30%>
-    <ul type='square'>
-      <li>Back to <a href='/'> Home </a></li>
-	  <li><a href="{{logout_url}}"> Sign out </a></li>
-    </ul>
-	
+    <section class="well welcome">
+        <h1 class="text-info">Please Vote:</h1>
+        <hr/>
+        <section id="ul">
+            <ul class="unstyled">
+                <li><a href="/">Home</a></li>
+                <li><a href="{{logout_url}}">Sign Out</a></li>
+            </ul>
+        </section>
+    </section>
+
+    <div><b>Category</b>: {{category.cat_name}}, <b>Account</b> {{account}}</div>
+
+    <hr/>
+
+    <input type="radio" name="voted_item_name" value="{{item1.item_name}}"> {{item1.item_name}} <br>
+    <input type="radio" name="voted_item_name" value="{{item2.item_name}}"> {{item2.item_name}} <br>
+
+    <input type="hidden" name="item1" value="{{item1.item_name}}">
+    <input type="hidden" name="item2" value="{{item2.item_name}}">
+    <input type="hidden" name="account" value="{{account}}">
+    <input type="hidden" name="category" value="{{category.cat_name}}">
+    <br/>
+    <input class="btn" type="submit" name="vote" value="Vote!">
+    <input class="btn" type="submit" name="skip" value="Skip">
+</form>
+
+</section>
+</body>
 </html>
