@@ -38,6 +38,14 @@
     <input class="btn" type="submit" name="skip" value="Skip">
 </form>
 
+    <hr/>
+
+    <form action="/vote" method="get">
+        <input type="hidden" name="account" value="{{account}}">
+        <input type="hidden" name="category" value="{{category.cat_name}}">
+        <input class="btn btn-link" type="submit" name="results" value="See Results">
+    </form>
+
 </section>
 </body>
 </html>

@@ -20,8 +20,12 @@ class VoteHandler(webapp2.RequestHandler):
 
         vote = self.request.get("vote")
         skip = self.request.get("skip")
+        results = self.request.get("results")
 
-        if vote:
+        if results:
+            self.show_results(account, category)
+
+        elif vote:
             self.do_vote(account, category)
             self.vote_page(category, account)
 
@@ -33,6 +37,33 @@ class VoteHandler(webapp2.RequestHandler):
         
         elif account:
             self.choose_category_page(account)
+
+
+
+    def show_results(self, account, category):
+        items = Item.all()
+        cat_key = db.Key.from_path("Account", account, "Category", category)
+        items.ancestor(cat_key)
+        
+        self.response.out.write("<html>")
+        for item in items.run():
+
+            percent = ''
+            if (item.win + item.lose) == 0:
+                percent = '-'
+            else:
+                percent = item.win//(item.win+item.lose)
+
+            self.response.out.write("""
+                    <h2>Item name: %s,
+                    win: %s,
+                    lose: %s,
+                    percentage: %s</h2>
+                """ %(item.item_name, item.win, item.lose, percent))
+            
+        self.response.out.write("<h3>Back to <a href='/'> Home </a></h3>")
+
+        self.response.out.write("</html>")
 
 
     def do_vote(self, owner, category):
