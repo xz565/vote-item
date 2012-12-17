@@ -135,7 +135,8 @@ class VoteHandler(webapp2.RequestHandler):
         rand1 = -1;
         rand2 = -1;
         if items.count() < 2:
-            self.response.out.write("Item number smaller than two")
+            self.response.out.write("<html><h2>Item number smaller than two, \
+                            please choose another category</h2></html>")
             self.choose_category_page(account)
             return
         else:
